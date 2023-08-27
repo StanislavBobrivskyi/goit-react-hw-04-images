@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import {
   SearchBar,
   SearchForm,
@@ -6,37 +6,34 @@ import {
   SearchForminput,
 } from './Searchbar.styled';
 import { BiSearchAlt } from 'react-icons/bi';
-export class Searchbar extends Component {
-  state = {
-    query: '',
+
+export const Searchbar = ({ onSubmit }) => {
+  const [query, setQuery] = useState('');
+
+  const handleChange = event => {
+    setQuery(event.target.value);
   };
 
-  handleChange = event => {
-    this.setState({ query: event.target.value });
-  };
-
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
-    this.props.onSubmit(this.state.query);
+    onSubmit(query);
   };
 
-  render() {
-    return (
-      <SearchBar>
-        <SearchForm onSubmit={this.handleSubmit}>
-          <SearchFormbutton type="submit">
-            <BiSearchAlt />
-          </SearchFormbutton>
-          <SearchForminput
-            type="text"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            value={this.state.query}
-            onChange={this.handleChange}
-          />
-        </SearchForm>
-      </SearchBar>
-    );
-  }
-}
+  return (
+    <SearchBar>
+      <SearchForm onSubmit={handleSubmit}>
+        <SearchFormbutton type="submit">
+          <BiSearchAlt />
+        </SearchFormbutton>
+        <SearchForminput
+          type="text"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+          value={query}
+          onChange={handleChange}
+        />
+      </SearchForm>
+    </SearchBar>
+  );
+};
